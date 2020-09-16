@@ -8,9 +8,13 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     cars: [],
-    activeCar: {}
+    activeCar: {},
+    jobs: []
   },
   mutations: {
+    setJobs(state, jobs) {
+      state.jobs = jobs
+    },
     setCars(state, cars) {
       state.cars = cars
     },
@@ -25,6 +29,15 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    async getAllJobs({ commit }) {
+      try {
+        let res = await api.get('jobs')
+        commit("setJobs", res.data.data)
+      } catch (error) {
+        console.log(error)
+      }
+    },
+
     async getAllCars({ commit }) {
       try {
         let res = await api.get('cars')
